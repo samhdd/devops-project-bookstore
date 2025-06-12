@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .image-test { margin-bottom: 20px; border: 1px solid #ccc; padding: 10px; }
+        img { max-width: 200px; height: auto; }
+        .success { color: green; }
+        .failure { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Image Path Test</h1>
+    
+    <div class="image-test">
+        <h3>War and Peace - Absolute Path</h3>
+        <img src="/images/books/war-and-peace-leo-tolstoy.jpg" 
+             alt="War and Peace"
+             onerror="this.onerror=null; this.nextElementSibling.innerHTML='❌ Failed to load'; this.nextElementSibling.className='failure';"
+             onload="this.nextElementSibling.innerHTML='✅ Successfully loaded'; this.nextElementSibling.className='success';" />
+        <div>Loading...</div>
+    </div>
+
+    <div class="image-test">
+        <h3>War and Peace - Relative Path</h3>
+        <img src="images/books/war-and-peace-leo-tolstoy.jpg" 
+             alt="War and Peace"
+             onerror="this.onerror=null; this.nextElementSibling.innerHTML='❌ Failed to load'; this.nextElementSibling.className='failure';"
+             onload="this.nextElementSibling.innerHTML='✅ Successfully loaded'; this.nextElementSibling.className='success';" />
+        <div>Loading...</div>
+    </div>
+
+    <div class="image-test">
+        <h3>Logo - Absolute Path</h3>
+        <img src="/logo192.png" 
+             alt="Logo"
+             onerror="this.onerror=null; this.nextElementSibling.innerHTML='❌ Failed to load'; this.nextElementSibling.className='failure';"
+             onload="this.nextElementSibling.innerHTML='✅ Successfully loaded'; this.nextElementSibling.className='success';" />
+        <div>Loading...</div>
+    </div>
+
+    <div class="image-test">
+        <h3>Logo - Relative Path</h3>
+        <img src="logo192.png" 
+             alt="Logo"
+             onerror="this.onerror=null; this.nextElementSibling.innerHTML='❌ Failed to load'; this.nextElementSibling.className='failure';"
+             onload="this.nextElementSibling.innerHTML='✅ Successfully loaded'; this.nextElementSibling.className='success';" />
+        <div>Loading...</div>
+    </div>
+
+    <script>
+        document.write('<div class="image-test"><h3>Base URL</h3><pre>' + 
+            document.baseURI + '</pre></div>');
+    </script>
+</body>
+</html>
