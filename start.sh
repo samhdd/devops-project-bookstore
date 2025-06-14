@@ -22,6 +22,19 @@ if ! pgrep -x "postgres" > /dev/null; then
     sleep 3
 fi
 
+# Ensure Node.js/npm is in PATH (for systems where it's not in sudo PATH)
+if ! command -v npm &> /dev/null; then
+    # Try to find npm in common locations
+    if [ -f "/versions/node/v22.15.1/bin/npm" ]; then
+        export PATH="/versions/node/v22.15.1/bin:$PATH"
+        echo "Added Node.js to PATH"
+    else
+        echo "ERROR: npm not found. Please ensure Node.js is installed."
+        echo "You may need to install Node.js or run without sudo."
+        exit 1
+    fi
+fi
+
 # Setup Python API
 echo "Setting up API..."
 cd /home/sam/devops-project-bookstore/api

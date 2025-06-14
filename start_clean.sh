@@ -19,6 +19,27 @@ if ! pgrep -x "postgres" > /dev/null; then
     sleep 3
 fi
 
+# Ensure Node.js/npm is in PATH (for systems where it's not in sudo PATH)
+if ! command -v npm &> /dev/null; then
+    # Try to find npm in common locations or use a configurable fallback path
+    FALLBACK_NPM_PATH=${FALLBACK_NPM_PATH:-"/versions/node/v22.15.1/bin/npm"}
+    COMMON_LOCATIONS=("/usr/local/bin/npm" "/usr/bin/npm" "$FALLBACK_NPM_PATH")
+
+    for location in "${COMMON_LOCATIONS[@]}"; do
+        if [ -f "$location" ]; then
+            export PATH="$(dirname "$location"):$PATH"
+            echo "Added Node.js to PATH from $location"
+            break
+        fi
+    done
+
+    if ! command -v npm &> /dev/null; then
+        echo "ERROR: npm not found. Please ensure Node.js is installed."
+        echo "You may need to install Node.js or set FALLBACK_NPM_PATH."
+        exit 1
+    fi
+fi
+
 # Setup Python API
 echo "Setting up API..."
 cd /home/sam/devops-project-bookstore/api
