@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "project": "Bookstore Application",
+  "automationRules": [
+    {
+      "name": "PRD Generation",
+      "trigger": "onStartup",
+      "actions": ["Generate PRD"],
+      "condition": "always"
+    },
+    {
+      "name": "Database Setup",
+      "trigger": "onStartup",
+      "actions": ["Setup Database", "Test Database Connection", "Setup Auth Database"],
+      "condition": "always"
+    },
+    {
+      "name": "Dependency Management",
+      "trigger": "onUpdate",
+      "actions": ["Install API Dependencies", "Install UI Dependencies"],
+      "condition": "fileChanged",
+      "paths": ["api/requirements.txt", "ui/package.json"]
+    },
+    {
+      "name": "Product Updates",
+      "trigger": "onSchedule",
+      "schedule": "daily",
+      "actions": ["Update Products"],
+      "condition": "always"
+    },
+    {
+      "name": "PRD Updates",
+      "trigger": "onUpdate",
+      "actions": ["Generate PRD"],
+      "condition": "fileChanged",
+      "paths": ["ui/src/**/*.js", "api/**/*.py"]
+    },
+    {
+      "name": "Auth System Tests",
+      "trigger": "onUpdate",
+      "actions": ["Test Authentication System"],
+      "condition": "fileChanged",
+      "paths": ["api/auth.py", "api/auth_routes.py", "api/db_auth_schema.sql"]
+    }
+  ],
+  "notifications": {
+    "onTaskStart": true,
+    "onTaskComplete": true,
+    "onTaskFail": true
+  },
+  "logging": {
+    "level": "info",
+    "path": "${workspaceFolder}/logs/task-master.log"
+  }
+}

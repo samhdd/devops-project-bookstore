@@ -135,5 +135,65 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-# Python virtual environment
-.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/task-master.json
+!.vscode/scripts/
+!.vscode/TASK-MASTER-README.md
+
+# Database
+*.sqlite3
+*.db
+*.sql.bak
+
+# Environment files
+.env*
+!.env.example
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# OS specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Test files
+.coverage
+htmlcov/
+.pytest_cache/
+pytest_results.xml
+.coverage.*
+
+# Production
+.dockerignore
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml

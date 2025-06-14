@@ -1,0 +1,115 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start API Server",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/api && python main.py",
+      "isBackground": true,
+      "problemMatcher": [],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Start UI Server",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/ui && npm start",
+      "isBackground": true,
+      "problemMatcher": [],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Setup Database",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/api && python create_db.py",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Test Database Connection",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/api && python test_db_connection.py",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Update Products",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/api && python update_products.py",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Install API Dependencies",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/api && pip install -r requirements.txt",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Install UI Dependencies",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/ui && npm install",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Start Full Application",
+      "dependsOn": [
+        "Start API Server",
+        "Start UI Server"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Task-Master: Status Check",
+      "type": "shell",
+      "command": "echo \"Task-Master AI Status: Active\nProject: Bookstore Application\nDate: $(date)\nEnvironment: $(uname -a)\nTasks Available: 10\nAutomation Rules: 4\nLog Location: ${workspaceFolder}/logs/task-master.log\"",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Generate PRD",
+      "type": "shell",
+      "command": "${workspaceFolder}/.vscode/scripts/generate_prd.sh",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false
+      },
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Setup Auth Database",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/api && python setup_auth_db.py",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Test Authentication System",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/api && python test_auth.py",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "group": "test"
+    }
+  ]
+}

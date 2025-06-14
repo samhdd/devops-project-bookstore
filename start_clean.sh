@@ -64,6 +64,14 @@ PGPASSWORD=postgres psql -h localhost -U postgres -d bookstore -f db_setup.sql -
 python update_products.py
 python check_db_schema.py
 
+# Setup authentication database
+echo "Setting up authentication system..."
+python setup_auth_db.py
+
+# Create test users
+echo "Creating test users for development..."
+python create_test_user.py
+
 # Set environment variables for API
 export DB_HOST=localhost
 export DB_PORT=5432
@@ -104,10 +112,15 @@ echo "React development server started with PID: $UI_PID"
 sleep 5
 
 echo ""
+echo "=============================================================="
 echo "Application started successfully!"
 echo "API is running at http://localhost:5000"
 echo "Frontend is running at http://localhost:3000"
 echo ""
+echo "Test Users:"
+echo "  Regular User: user@gmail.com / Password123"
+echo "  Admin User: admin@gmail.com / AdminPass123"
+echo "=============================================================="
 
 # Try to open browser
 if command -v xdg-open &> /dev/null; then

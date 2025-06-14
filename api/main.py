@@ -7,12 +7,17 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask_cors import CORS
 from config import DB_CONFIG, DEBUG, PORT
+from auth_routes import auth_bp
+from auth import token_required, admin_required
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 CORS(app)
+
+# Register authentication blueprint
+app.register_blueprint(auth_bp, url_prefix='/api/auth')
 
 # Database connection configuration from config.py
 DB_HOST = DB_CONFIG['host']

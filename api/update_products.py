@@ -34,40 +34,45 @@ def update_products():
             # Get existing product IDs
             cur.execute('SELECT id FROM products')
             existing_ids = {row[0] for row in cur.fetchall()}
+            print(f"Found {len(existing_ids)} existing products: {existing_ids}")
             
+            # Show all mock products
+            print("All mock products:")
+            for p in mock_products:
+                print(f"  {p['id']} - {p['name']}")
+                
             # Find missing products
             missing_products = [p for p in mock_products if p['id'] not in existing_ids]
+            print(f"Found {len(missing_products)} missing products:")
+            for p in missing_products:
+                print(f"  Missing: {p['id']} - {p['name']}")
             
-            if len(missing_products) > 0:
-                print(f"Found {len(missing_products)} missing products. Adding them...")
-                # Insert missing products
-                for product in missing_products:
-                    print(f"Adding product: {product['id']} - {product['name']}")
-                    try:
-                        cur.execute('''
-                        INSERT INTO products (id, name, author, price, category_id, category, 
-                                            description, image_url, pages, published) 
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                        ''', (
-                            product['id'], 
-                            product['name'],
-                            product['author'],
-                            product['price'],
-                            product['categoryId'],
-                            product['category'],
-                            product['description'],
-                            f"/api/images/books/{os.path.basename(product['imageUrl'])}" if product.get('imageUrl') else None,
-                            product.get('pages'),
-                            product.get('published')
-                        ))
-                        print(f"  Successfully added {product['id']} - {product['name']}")
-                    except Exception as e:
-                        print(f"  Error adding {product['id']} - {product['name']}: {e}")
-                
-                conn.commit()
-                print("Products updated successfully")
-            else:
-                print("All products are up to date.")
+            # Insert missing products
+            for product in missing_products:
+                print(f"Adding product: {product['id']} - {product['name']}")
+                try:
+                    cur.execute('''
+                    INSERT INTO products (id, name, author, price, category_id, category, 
+                                        description, image_url, pages, published) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ''', (
+                        product['id'], 
+                        product['name'],
+                        product['author'],
+                        product['price'],
+                        product['categoryId'],
+                        product['category'],
+                        product['description'],
+                        f"/api/images/books/{os.path.basename(product['imageUrl'])}" if product.get('imageUrl') else None,
+                        product.get('pages'),
+                        product.get('published')
+                    ))
+                    print(f"  Successfully added {product['id']} - {product['name']}")
+                except Exception as e:
+                    print(f"  Error adding {product['id']} - {product['name']}: {e}")
+            
+            conn.commit()
+            print("Products updated successfully")
     except Exception as e:
         conn.rollback()
         print(f"Error updating products: {e}")

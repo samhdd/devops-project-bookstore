@@ -22,19 +22,6 @@ if ! pgrep -x "postgres" > /dev/null; then
     sleep 3
 fi
 
-# Ensure Node.js/npm is in PATH (for systems where it's not in sudo PATH)
-if ! command -v npm &> /dev/null; then
-    # Try to find npm in common locations
-    if [ -f "/versions/node/v22.15.1/bin/npm" ]; then
-        export PATH="/versions/node/v22.15.1/bin:$PATH"
-        echo "Added Node.js to PATH"
-    else
-        echo "ERROR: npm not found. Please ensure Node.js is installed."
-        echo "You may need to install Node.js or run without sudo."
-        exit 1
-    fi
-fi
-
 # Setup Python API
 echo "Setting up API..."
 cd /home/sam/devops-project-bookstore/api
@@ -58,6 +45,10 @@ python create_db.py
 PGPASSWORD=postgres psql -h localhost -U postgres -d bookstore -f db_setup.sql -v ON_ERROR_STOP=1 || echo "Database schema already exists"
 python update_products.py
 python check_db_schema.py
+
+# Setup authentication database
+echo "Setting up authentication system..."
+python setup_auth_db.py
 
 # Set environment variables for API
 export DB_HOST=localhost
@@ -99,10 +90,14 @@ echo "React development server started with PID: $UI_PID"
 sleep 5
 
 echo ""
+echo "=============================================================="
 echo "Application started successfully!"
 echo "API is running at http://localhost:5000"
 echo "Frontend is running at http://localhost:3000"
 echo ""
+echo "Authentication is enabled. Use the register page to create an account."
+echo "For test users, run: python api/create_test_user.py"
+echo "=============================================================="
 
 # Try to open browser
 if command -v xdg-open &> /dev/null; then
